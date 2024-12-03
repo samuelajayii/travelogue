@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Globe Circle -->
+  <circle cx="100" cy="100" r="90" stroke="#0077CC" stroke-width="8" />
+  
+  <!-- Horizontal Lines for Globe -->
+  <path d="M30 100h140" stroke="#0077CC" stroke-width="4" />
+  <path d="M50 70q50 30 100 0" stroke="#0077CC" stroke-width="4" fill="transparent" />
+  <path d="M50 130q50 -30 100 0" stroke="#0077CC" stroke-width="4" fill="transparent" />
+
+  <!-- Open Book -->
+  <path d="M70 140l-20 20q20 -10 40 0v-20" fill="#3AB0FF" />
+  <path d="M130 140l20 20q-20 -10 -40 0v-20" fill="#3AB0FF" />
+
+  <!-- Text "Travelogue" -->
+  
+</svg>
