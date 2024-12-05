@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "./components/Header";
 import { Jost } from "next/font/google";
+import Footer from "./components/Footer";
 
 const jost = Jost ({
   subsets: ["english"],
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
       >
         <Header />
         {children}
+        <Footer />
       </body>
     </html>
   );

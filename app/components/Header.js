@@ -16,7 +16,8 @@ const Header = async () => {
         <header>
             <nav className='header'>
                 <div className='flex items-center gap-3'>
-                    <Image src='/logo-design.jpg' width={40} height={40} alt='logo' />
+                    <Link href="/"><Image src='/logo-design.jpg' width={40} height={40} alt='logo' /></Link>
+                   
                 </div>
 
                 <div className='flex items-center gap-5'>
@@ -25,7 +26,7 @@ const Header = async () => {
                         {session && session?.user ? (
                             <div className='flex items-center gap-5 text-black'>
                                 <h1>Welcome {user?.name || "Guest"}</h1>
-                                <Link href="/"><span>Home</span></Link>
+                                <Link href="/home"><span>Home</span></Link>
                                 <Link href="/profile/create"><span>Create Travelogue</span></Link>
                                 <Link href={`/user/${session?.id}`}><span>Profile</span></Link>
 
@@ -37,7 +38,6 @@ const Header = async () => {
                             <div className='flex items-center gap-5'>
                                 <div>Home </div>
                                 <div>About </div>
-                                <div>Contact </div>
                                 <form action={async () => { "use server"; await signIn("google", {redirectTo: "/home"}) }}>
                                     <button type="submit">Sign In</button>
                                 </form>
