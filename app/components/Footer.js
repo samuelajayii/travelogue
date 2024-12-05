@@ -11,8 +11,6 @@ const Footer = () => {
             <FontAwesomeIcon className='cursor-pointer' icon={faInstagram}></FontAwesomeIcon>
             <FontAwesomeIcon className='cursor-pointer' icon={faFacebook}></FontAwesomeIcon>
             <FontAwesomeIcon className='cursor-pointer' icon={faReddit}></FontAwesomeIcon>
-
-            
         </footer>
     );
 }
