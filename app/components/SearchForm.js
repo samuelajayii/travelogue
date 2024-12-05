@@ -10,8 +10,8 @@ const SearchForm = ({query}) => {
 
     return (
         <div className='flex items-center justify-center' >
-            <Form action='/home' scroll={false} className='search-form flex items-center justify-center gap-3 outline-none py-3 px-3 w-[50vw] border-black text-black border rounded-full'>
-                <input name='query' defaultValue={query} placeholder='Search Posts' className='flex-1 w-full h-auto outline-none' />
+            <Form action='/home' scroll={false} className='search-form flex items-center justify-center gap-3 outline-none py-3 px-3 w-[50vw] pl-10 text-black rounded-full bg-white'>
+                <input name='query' defaultValue={query} placeholder='Search Posts' className='flex-1 w-full  outline-none text-xl h-full' />
 
                 <div className="flex gap-2">
                     {query && <SearchFormReset />}
