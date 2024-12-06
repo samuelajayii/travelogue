@@ -21,8 +21,8 @@ export const blogger = defineType({
             type: 'string',
         }),
         defineField({
-            name: 'profileImage',
-            title: 'Profile Image',
+            name: 'image',
+            title: 'Image',
             type: 'image',
         }),
         defineField({

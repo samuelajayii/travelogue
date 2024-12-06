@@ -3,6 +3,7 @@ import "../globals.css";
 import Header from "../components/Header";
 import { Jost } from "next/font/google";
 import Footer from "../components/Footer";
+import "easymde/dist/easymde.min.css";
 
 const jost = Jost ({
   subsets: ["cyrillic"],

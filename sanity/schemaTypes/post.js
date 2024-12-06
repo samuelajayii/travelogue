@@ -35,8 +35,8 @@ export const post = defineType({
     defineField({
       name: 'content',
       title: 'Content',
-      type: 'text',
-      validation: (rule) => rule.required().error('Please tell us your experience')
+      type: 'markdown',
+
     }),
     defineField({
       name: 'images',

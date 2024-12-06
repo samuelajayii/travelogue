@@ -9,7 +9,6 @@ import { auth, signOut, signIn } from "@/auth"
 const Header = async () => {
 
     const session = await auth();
-    console.log(session);
     const user = session?.user;
 
     return (
