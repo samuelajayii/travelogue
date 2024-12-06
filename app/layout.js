@@ -5,7 +5,7 @@ import { Jost } from "next/font/google";
 import Footer from "./components/Footer";
 
 const jost = Jost ({
-  subsets: ["english"],
+  subsets: ["cyrillic"],
   weight: ["400", "900"],
 });
 
