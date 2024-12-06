@@ -1,8 +1,8 @@
 import localFont from "next/font/local";
-import "./globals.css";
-import Header from "./components/Header";
+import "../globals.css";
+import Header from "../components/Header";
 import { Jost } from "next/font/google";
-import Footer from "./components/Footer";
+import Footer from "../components/Footer";
 
 const jost = Jost ({
   subsets: ["cyrillic"],

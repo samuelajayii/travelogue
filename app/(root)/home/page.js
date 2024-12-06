@@ -1,6 +1,6 @@
 import React from 'react';
 import { auth } from '@/auth';
-import SearchForm from '../components/SearchForm';
+import SearchForm from '../../components/SearchForm';
 
 
 const page = async ({ searchParams }) => {
