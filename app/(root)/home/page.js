@@ -1,9 +1,9 @@
 import React from 'react';
 import { auth } from '@/auth';
 import SearchForm from '../../components/SearchForm';
-import { client } from '@/sanity/lib/client';
 import { POST_QUERY } from '@/sanity/lib/queries';
 import PostCard from '@/app/components/PostCard';
+import { sanityFetch, SanityLive } from '@/sanity/lib/live';
 
 
 const page = async ({ searchParams }) => {
@@ -12,8 +12,8 @@ const page = async ({ searchParams }) => {
     const params = { search: query || null };
     const session = await auth();
 
-    const posts = await client.fetch(POST_QUERY)
-    console.log(JSON.stringify(posts, null, 2))
+    const { data: posts } = await sanityFetch({ query: POST_QUERY })
+
 
     return (
         <div className='mt-20 '>
@@ -25,11 +25,23 @@ const page = async ({ searchParams }) => {
                 <SearchForm query={query} />
             </section>
 
-            <section>
-                
+            <p className="mb-10 text-4xl lg:ml-14">
+                {query ? `Search results for "${query}"` : "All Startups"}
+            </p>
+
+            <section className='lg:m-14 place-content-center grid md:grid-cols-3 sm:grid-cols-2 gap-5'>
+
+                {Array.isArray(posts) && posts.length > 0 ? (
+                    posts.map((post) => (
+                        <PostCard key={post._id} post={post} />
+                    ))
+                ) : (
+                    <p className="no-results">No startups found</p>
+                )}
+
             </section>
 
-            <PostCard />
+            <SanityLive />
         </div>
     );
 }

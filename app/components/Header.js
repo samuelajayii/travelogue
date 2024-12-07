@@ -26,7 +26,7 @@ const Header = async () => {
                             <div className='flex items-center gap-5 text-black'>
                                 <h1>Welcome {user?.name || "Guest"}</h1>
                                 <Link href="/home"><span>Home</span></Link>
-                                <Link href="/profile/create"><span>Create Travelogue</span></Link>
+                                <Link href="/create"><span>Create Travelogue</span></Link>
                                 <Link href={`/user/${session?.id}`}><span>Profile</span></Link>
 
                                 <form action={async () => { "use server"; await signOut({redirectTo: "/"}) }}>
