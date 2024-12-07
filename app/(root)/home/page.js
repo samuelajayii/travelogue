@@ -12,7 +12,7 @@ const page = async ({ searchParams }) => {
     const params = { search: query || null };
     const session = await auth();
 
-    const { data: posts } = await sanityFetch({ query: POST_QUERY })
+    const { data: posts } = await sanityFetch({ query: POST_QUERY, params })
 
 
     return (

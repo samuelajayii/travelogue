@@ -12,7 +12,7 @@ const SearchFormReset = () => {
 
     return (
         <button type="reset" onClick={reset}>
-            <Link href="/home" className="rounded-full bg-black px-3.5 py-2 text-base text-white">
+            <Link href="/home" className="rounded-full bg-black px-[15px] py-2.5 text-base text-white">
                 <FontAwesomeIcon icon={faXmark}/>
             </Link>
         </button>
