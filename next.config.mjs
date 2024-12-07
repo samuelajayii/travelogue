@@ -1,7 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['cdn.sanity.io'], // Add Sanity's CDN domain here
+        dangerouslyAllowSVG: true,
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "*",
+            },
+        ],
+    },
+    experimental: {
+        ppr: "incremental",
+    },
+    devIndicators: {
+        appIsrStatus: true,
+        buildActivity: true,
+        buildActivityPosition: "bottom-right",
     },
 };
 

@@ -5,3 +5,18 @@ export const POST_QUERY = defineQuery(
   _id, _createdAt, date, images, slug, blogger -> {_id, name, image, bio},title, content, destination
 }`
 )
+
+
+export const POST_BY_ID_QUERY = defineQuery(
+  `*[_type == "post" && _id == $id][0]{
+  _id, 
+  _createdAt, 
+  date,
+  images,
+  slug, 
+  blogger -> {_id, name, image, bio},
+  title,
+  content,
+  destination
+}`
+)

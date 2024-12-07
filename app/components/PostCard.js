@@ -35,9 +35,9 @@ const PostCard = ({ post }) => {
                     </Link>
                 </div>
             </div>
-            <Link href={`/startup/${_id}`}><h1 className='font-normal text-[16px] line-clamp-2 my-3 text-black-100 break-all'>{content}</h1></Link>
+            <Link href={`/post/${_id}`}><h1 className='font-normal text-[16px] line-clamp-2 my-3 text-black-100 break-all'>{content}</h1></Link>
 
-            <Link className='w-full' href={`/startup/${_id}`}><img alt='post-image' src={urlFor(images[0]).url()} className='w-full h-[164px] rounded-[10px] object-cover' /></Link>
+            <Link className='w-full' href={`/post/${_id}`}><img alt='post-image' src={urlFor(images[0]).url()} className='w-full h-[164px] rounded-[10px] object-cover' /></Link>
 
             <div className='w-full flex mt-3 items-center justify-between'>
                 <div className='flex items-center gap-1'>
@@ -45,7 +45,7 @@ const PostCard = ({ post }) => {
                     <h1>{destination}</h1>
                 </div>
 
-                <Link className='py-1 px-4 text-white bg-black rounded-full' href={`/startup/${_id}`}>Details</Link>
+                <Link className='py-1 px-4 text-white bg-black rounded-full' href={`/post/${_id}`}>Details</Link>
             </div>
 
         </div>
