@@ -12,6 +12,8 @@ const page = async ({ searchParams }) => {
     const params = { search: query || null };
     const session = await auth();
 
+    if (!session) redirect('/')
+
     const { data: posts } = await sanityFetch({ query: POST_QUERY, params })
 
 

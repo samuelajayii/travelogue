@@ -14,6 +14,9 @@ const page = async ({ params }) => {
 
     const id = (await params).id
     const post = await client.fetch(POST_BY_ID_QUERY, { id })
+    const session = await auth()
+
+    if (!session) redirect('/')
 
     return (
         <div className='mt-20 flex flex-col gap-10'>
