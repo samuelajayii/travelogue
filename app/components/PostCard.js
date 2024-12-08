@@ -9,7 +9,7 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 const PostCard = ({ post }) => {
 
-    const { destination, images, slug, bio, title, _createdAt, date, blogger, content, _id } = post;
+    const { destination, images, title, _createdAt, blogger, content, _id } = post;
 
     return (
         <div className='flex flex-col items-center justify-between gap-1 border rounded-xl py-5 transition-all shadow-md hover:shadow-xl px-8 w-full'>
@@ -23,10 +23,10 @@ const PostCard = ({ post }) => {
                         <Link className='w-fit' href={`/user/${blogger?._id}`}><h1>{blogger.name}</h1></Link>
                         <h1 className='font-bold text-2xl'>{title}</h1>
                     </div>
-
+                    {console.log(blogger.image)}
                     <Link href={`/user/${blogger?._id}`}>
                         <Image
-                            src={urlFor(blogger.image).url()}
+                            src={blogger.image}
                             alt={blogger?.name}
                             width={48}
                             height={48}

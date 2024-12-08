@@ -6,7 +6,7 @@ import Footer from "../components/Footer";
 import "easymde/dist/easymde.min.css";
 
 const jost = Jost ({
-  subsets: ["cyrillic"],
+  subsets: ["latin"],
   weight: ["400", "900"],
 });
 

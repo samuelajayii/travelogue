@@ -27,7 +27,7 @@ const page = async ({ params }) => {
             <div className='flex items-center flex-col justify-center '>
                 <div className='w-[50vw] flex items-center justify-between'>
                     <div className='flex items-center gap-4'>
-                        <Image height={64} width={64} className='rounded-full' alt='profile-photo' src={urlFor(post.blogger.image).url()} />
+                        <Image height={64} width={64} className='rounded-full' alt='profile-photo' src={post.blogger.image} />
                         <div className='font-semibold'>{post.blogger.name}</div>
                     </div>
                     <div className='flex items-center gap-1 text-white bg-black px-4 py-2 font-semibold rounded-full'>

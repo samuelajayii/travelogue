@@ -11,6 +11,8 @@ const Header = async () => {
     const session = await auth();
     const user = session?.user;
 
+    console.log(session)
+
     return (
         <header>
             <nav className='header'>

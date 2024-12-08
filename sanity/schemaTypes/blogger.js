@@ -8,7 +8,7 @@ export const blogger = defineType({
         defineField({
             name: 'id',
             title: 'ID',
-            type: 'number',
+            type: 'string',
         }),
         defineField({
             name: 'name',
@@ -23,7 +23,7 @@ export const blogger = defineType({
         defineField({
             name: 'image',
             title: 'Image',
-            type: 'image',
+            type: 'url',
         }),
         defineField({
             name: 'bio',
