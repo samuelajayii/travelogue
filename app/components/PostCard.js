@@ -23,7 +23,6 @@ const PostCard = ({ post }) => {
                         <Link className='w-fit' href={`/user/${blogger?._id}`}><h1>{blogger.name}</h1></Link>
                         <h1 className='font-bold text-2xl'>{title}</h1>
                     </div>
-                    {console.log(blogger.image)}
                     <Link href={`/user/${blogger?._id}`}>
                         <Image
                             src={blogger.image}
