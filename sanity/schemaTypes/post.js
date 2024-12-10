@@ -17,10 +17,10 @@ export const post = defineType({
       options: { source: 'title', maxLength: 96 },
     }),
     defineField({
-        name: 'blogger',
-        type: 'reference',
-        to: [{type: 'blogger'}],
-      }),
+      name: 'blogger',
+      type: 'reference',
+      to: [{ type: 'blogger' }],
+    }),
     defineField({
       name: 'destination',
       title: 'Destination',
@@ -42,7 +42,7 @@ export const post = defineType({
       name: 'images',
       title: 'Images',
       type: 'array',
-      of: [{ type: 'image' }],
+      of: [{ type: 'image'}],
     }),
   ],
 });

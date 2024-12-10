@@ -6,20 +6,31 @@ import { InputLabel, TextField, Button, Box } from '@mui/material';
 import MDEditor from '@uiw/react-md-editor';
 import postFormSchema from '../utils/validation';
 import { z } from 'zod';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation';
+import { createPost } from '../utils/actions';
 
 const PostForm = () => {
     const [image, setImage] = useState(null);
     const [preview, setPreview] = useState(null);
     const [errors, setErrors] = useState({});
-    const [content, setContent] = useState('**Hello World**');
-    const [selectedDate, setSelectedDate] = useState('');
+    const [content, setContent] = useState('**Hello Worldddddddddddd**');
+    const [date, setDate] = useState('');
+
+    const router = useRouter()
+
+    const handleRemoveImage = () => {
+        setImage(null);
+        setPreview(null);
+    };
 
     const handleFormSubmit = async (prevState, formData) => {
-        // Gather form data manually
+
         const formValues = {
             title: formData.get('title'),
-            location: formData.get('location'),
-            selectedDate,
+            destination: formData.get('destination'),
+            date,
             image,
             content,
         };
@@ -27,17 +38,25 @@ const PostForm = () => {
         try {
             // Validate using Zod schema
             await postFormSchema.parseAsync(formValues);
+            const result = await createPost(prevState, formData, content)
             console.log('Form submitted successfully:', formValues);
+            console.log(result)
+            toast.success('Post successfully submitted for upload', { position: 'top-center' })
+            handleRemoveImage();
+            setContent('');
+            setDate('');
 
-            return { ...prevState, status: 'SUCCESS' }; 
+            // router.push('/home')
+
+            return { ...prevState, status: 'SUCCESS' };
         } catch (error) {
             if (error instanceof z.ZodError) {
-                
+
                 const fieldErrors = error.flatten().fieldErrors;
                 setErrors(fieldErrors);
 
                 // Provide user feedback
-                alert('Validation failed. Please check your inputs and try again.');
+                toast.error('Validation failed. Please check your inputs and try again.', { position: 'top-center' });
 
                 return { ...prevState, error: 'Validation failed', status: 'ERROR' };
             }
@@ -53,22 +72,21 @@ const PostForm = () => {
     });
 
     const handleDateChange = (e) => {
-        setSelectedDate(e.target.value);
+        setDate(e.target.value);
     };
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setImage(file);
             const previewURL = URL.createObjectURL(file);
             setPreview(previewURL);
+
+            // Set only one image in the state
+            setImage(file);
         }
     };
 
-    const handleRemoveImage = () => {
-        setImage(null);
-        setPreview(null);
-    };
+
 
     return (
         <form
@@ -91,13 +109,13 @@ const PostForm = () => {
                 <div>
                     <TextField
                         sx={{ width: 600 }}
-                        id="location"
-                        name="location"
+                        id="destination"
+                        name="destination"
                         required
-                        label="Location"
+                        label="Destination"
                         variant="filled"
                     />
-                    {errors.location && <p className="text-red-500">{errors.location}</p>}
+                    {errors.destination && <p className="text-red-500">{errors.destination}</p>}
                 </div>
 
                 <div>
@@ -105,7 +123,9 @@ const PostForm = () => {
                         <TextField
                             label="Select Date"
                             type="date"
-                            value={selectedDate}
+                            value={date}
+                            name='date'
+                            id='date'
                             onChange={handleDateChange}
                             required
                             slotProps={{
@@ -127,6 +147,8 @@ const PostForm = () => {
                                 type="file"
                                 accept="image/*"
                                 hidden
+                                id='images'
+                                name='images'
                                 onChange={handleImageChange}
                             />
                         </Button>
@@ -145,6 +167,7 @@ const PostForm = () => {
                                 <img
                                     src={preview}
                                     alt="Preview"
+                                    id='images'
                                     style={{ width: '100%', borderRadius: '8px' }}
                                 />
                             </Box>
@@ -159,36 +182,40 @@ const PostForm = () => {
                     </Box>
                     {errors.image && <p className="text-red-500">{errors.image}</p>}
                 </div>
-                <div data-color-mode="light">
-                    <InputLabel
-                        color="info"
-                        margin="dense"
-                        sx={{ mb: 1, fontSize: 17 }}
-                    >
-                        Content
-                    </InputLabel>
-                    <MDEditor
-                        value={content}
-                        onChange={(value) => setContent(value)}
-                        id="content"
-                        height={300}
-                        style={{ overflow: 'hidden' }}
-                        textareaProps={{
-                            placeholder: 'Please tell us about your trip',
-                        }}
-                    />
-                    {errors.content && <p className="text-red-500">{errors.content}</p>}
-                </div>
+                <Box maxWidth={600}>
+                    <div data-color-mode="light" className='w-[50vw]'>
+                        <InputLabel
+                            color="info"
+                            margin="dense"
+                            sx={{ mb: 1, fontSize: 17 }}
+                        >
+                            Content
+                        </InputLabel>
+                        <MDEditor
+                            value={content}
+                            onChange={(value) => setContent(value)}
+                            id="content"
+                            height={300}
+                            style={{ overflow: 'hidden' }}
+                            textareaProps={{
+                                placeholder: 'Please tell us about your trip',
+                            }}
+                        />
+                        {errors.content && <p className="text-red-500">{errors.content}</p>}
+                    </div>
+                </Box>
+
             </div>
             <Button
                 type="submit"
-                className="mt-4"
+                sx={{ mt: 2 }}
                 disabled={isPending}
                 variant="contained"
                 color="info"
             >
-                {isPending ? 'Submitting...' : 'Submit Your Pitch'}
+                {isPending ? 'Submitting...' : 'Submit Your Story'}
             </Button>
+            <ToastContainer />
         </form>
     );
 };

@@ -7,6 +7,7 @@ import React from 'react';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { auth } from '@/auth';
 
 export const experimental_prr = true
 

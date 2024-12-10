@@ -7,6 +7,7 @@ import PostForm from '@/app/components/PostForm';
 const page = async () => {
 
     const session = await auth()
+    
 
     if (!session) redirect('/')
 
