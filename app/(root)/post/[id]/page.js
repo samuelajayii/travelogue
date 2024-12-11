@@ -8,6 +8,8 @@ import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
+
 
 export const experimental_prr = true
 

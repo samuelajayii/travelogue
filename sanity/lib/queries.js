@@ -2,8 +2,16 @@ import { defineQuery } from "next-sanity";
 
 export const POST_QUERY = defineQuery(
   `*[_type == "post" && defined(slug.current) && !defined($search) ||  title match $search || location match $search || blogger->name match $search || destination match $search]{
-  _id, _createdAt, date, images, slug, blogger -> {_id, name, image, bio},title, content, destination
-}`
+  _id,
+  _createdAt, 
+  date, 
+  images, 
+  slug, 
+  blogger -> {_id, name, image, bio},
+  title, 
+  content, 
+  destination
+  }`
 )
 
 
@@ -18,8 +26,8 @@ export const POST_BY_ID_QUERY = defineQuery(
   title,
   content,
   destination
-}`
-)
+  }`
+);
 
 export const AUTHOR_BY_GOOGLE_ID_QUERY = defineQuery(`
   *[_type == "blogger" && id == $id][0]{
@@ -28,5 +36,31 @@ export const AUTHOR_BY_GOOGLE_ID_QUERY = defineQuery(`
       name,
       email,
       image,
-  }
-  `);
+      bio
+  }`
+);
+
+export const AUTHOR_BY_ID_QUERY = defineQuery(`
+    *[_type == "blogger" && _id == $id][0]{
+        _id,
+        id,
+        name,
+        email,
+        image,
+        bio
+    }`
+);
+
+export const POSTS_BY_BLOGGER_QUERY = defineQuery(
+  `*[_type == "post" && blogger._ref == $id]{
+  _id,
+  _createdAt, 
+  date, 
+  images, 
+  slug, 
+  blogger -> {_id, name, image, bio},
+  title, 
+  content, 
+  destination
+  }`
+)

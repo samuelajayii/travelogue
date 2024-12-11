@@ -9,7 +9,7 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
 
 const PostCard = ({ post }) => {
 
-    const { destination, images, title, _createdAt, blogger, content, _id } = post;
+    const { destination, images, title, _createdAt, blogger, content, _id, date } = post;
 
     return (
         <div className='flex flex-col items-center justify-between gap-1 border rounded-xl py-5 transition-all shadow-md hover:shadow-xl px-8 w-full'>
@@ -38,7 +38,9 @@ const PostCard = ({ post }) => {
 
             <Link className='w-full' href={`/post/${_id}`}><img alt='post-image' src={urlFor(images[0]).url()} className='w-full h-[164px] rounded-[10px] object-cover' /></Link>
 
-            <div className='w-full flex mt-3 items-center justify-between'>
+            <h1 className='self-start mt-2'>{formatDate(date)}</h1>
+
+            <div className='w-full flex mt-2 items-center justify-between'>
                 <div className='flex items-center gap-1'>
                     <FontAwesomeIcon icon={faLocationDot} />
                     <h1>{destination}</h1>

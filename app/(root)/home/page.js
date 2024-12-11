@@ -4,6 +4,8 @@ import SearchForm from '../../components/SearchForm';
 import { POST_QUERY } from '@/sanity/lib/queries';
 import PostCard from '@/app/components/PostCard';
 import { sanityFetch, SanityLive } from '@/sanity/lib/live';
+import { redirect } from 'next/navigation';
+
 
 
 const page = async ({ searchParams }) => {
@@ -12,7 +14,7 @@ const page = async ({ searchParams }) => {
     const params = { search: query || null };
     const session = await auth();
 
-    if (!session) redirect('/')
+    if (!session) {redirect('/')}
 
     const { data: posts } = await sanityFetch({ query: POST_QUERY, params })
 

@@ -3,6 +3,7 @@ import Image from "next/image";
 import { motion, useInView, useMotionValueEvent, useScroll, useTransform, } from "motion/react"
 import { useRef } from "react";
 
+
 export default function Home() {
 
   const ref = useRef(null);

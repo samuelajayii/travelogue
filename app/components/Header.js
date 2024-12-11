@@ -7,7 +7,7 @@ const Header = async () => {
 
     const session = await auth();
     const user = session?.user;
-
+    
 
     return (
         <header>
@@ -22,10 +22,10 @@ const Header = async () => {
                     <div>
                         {session && session?.user ? (
                             <div className='flex items-center gap-5 text-black'>
-                                <h1>Welcome {user?.name || "Guest"}</h1>
+                                <h1>Welcome, {user?.name || "Guest"}</h1>
                                 <Link href="/home"><span>Home</span></Link>
                                 <Link href="/post/create"><span>Create Travelogue</span></Link>
-                                <Link href={`/user/${session?.id}`}><span>Profile</span></Link>
+                                <Link href={`/user/${user?.id}`}><span>Profile</span></Link>
 
                                 <form action={async () => { "use server"; await signOut({redirectTo: "/"}) }}>
                                     <button type="submit">Sign Out</button>

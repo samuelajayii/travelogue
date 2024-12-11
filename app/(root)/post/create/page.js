@@ -4,11 +4,10 @@ import { redirect } from 'next/navigation';
 import React from 'react';
 import PostForm from '@/app/components/PostForm';
 
+
 const page = async () => {
 
     const session = await auth()
-    
-
     if (!session) redirect('/')
 
     return (
