@@ -28,12 +28,12 @@ const page = async ({ params }) => {
             </section>
 
             <div>
-                <p className="font-semibold m-14 text-3xl">
+                <p className="font-semibold lg:m-14 m-7 text-3xl">
                     {session.user?.id === id ? "Your" : "All"} Startups
                 </p>
             </div>
 
-            <section className='lg:m-14 place-content-center grid md:grid-cols-3 sm:grid-cols-2 gap-5'>
+            <section className='lg:m-14 m-7 place-content-center grid md:grid-cols-3 sm:grid-cols-2 gap-5'>
                 {Array.isArray(posts) && posts.length > 0 ? (
                     posts.map((post) => (
                         <PostCard key={post._id} post={post} />

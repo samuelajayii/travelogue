@@ -6,10 +6,10 @@ import { urlFor } from '@/sanity/lib/image';
 import React from 'react';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
-
+import Link from 'next/link';
 
 export const experimental_prr = true
 
@@ -18,30 +18,39 @@ const page = async ({ params }) => {
     const id = (await params).id
     const post = await client.fetch(POST_BY_ID_QUERY, { id })
     const session = await auth()
+    const user = session?.user
 
     if (!session) redirect('/')
 
     return (
-        <div className='mt-20 flex flex-col gap-10'>
+        <div className='mt-20 flex flex-col gap-3 lg:gap-10'>
             <div className='py-16 plane-bg flex flex-col gap-5 items-center justify-center'>
-                <h1 className='text-white bg-black p-4 rounded'>{formatDate(post._createdAt)}</h1>
+                <h1 className='text-white bg-black p-4 rounded'><span>Post made on: </span>{formatDate(post._createdAt)}</h1>
                 <h1 className='text-black font-semibold bg-white text-4xl rounded-sm p-7'>{post.title}</h1>
             </div>
 
-            <img src={urlFor(post.images[0]).url()} alt='post-image' className='w-[50vw] my-14 lg:h-[60vh] self-center place-self-center rounded-xl' />
+            <img src={urlFor(post.images[0]).url()} alt='post-image' className='lg:w-[50vw] w-[80vw] h-[35vh] my-14 lg:h-[60vh] self-center place-self-center rounded' />
 
-            <div className='flex items-center flex-col justify-center '>
-                <div className='w-[50vw] flex items-center justify-between'>
-                    <div className='flex items-center gap-4'>
-                        <Image height={64} width={64} className='rounded-full' alt='profile-photo' src={post.blogger.image} />
-                        <div className='font-semibold'>{post.blogger.name}</div>
-                    </div>
-                    <div className='flex items-center gap-1 text-white bg-black px-4 py-2 font-semibold rounded-full'>
+            <div className='flex items-center mx-7 flex-col justify-between lg:justify-center '>
+                <div className='lg:w-[50vw] lg:self-center self-start lg:flex-row flex-col lg:gap-0 gap-3 flex items-center justify-between'>
+                    <Link href={`/user/${user?.id}`}>
+                        <div className='flex items-center justify-center gap-4'>
+                            <Image height={64} width={64} className='rounded-full' alt='profile-photo' src={post.blogger.image} />
+                            <div className='font-semibold'>{post.blogger.name}</div>
+                        </div>
+                    </Link>
+
+                    <div className='self-start lg:self-center flex items-center gap-1 text-white bg-black px-4 py-2 font-semibold rounded-full'>
                         <FontAwesomeIcon icon={faLocationDot} />
                         <h1>{post.destination}</h1>
                     </div>
+
+                    <div className='flex lg:self-center items-center gap-2 self-start justify-center'>
+                        <FontAwesomeIcon icon={faCalendar} />
+                        <h1>{formatDate(post.date)}</h1>
+                    </div>
                 </div>
-                <h1 className='text-black w-[50vw] my-10 text-justify'>
+                <h1 className='text-black lg:w-[50vw] my-10 text-justify'>
                     {post.content}
                 </h1>
             </div>

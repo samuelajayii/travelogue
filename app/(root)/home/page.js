@@ -29,11 +29,11 @@ const page = async ({ searchParams }) => {
                 <SearchForm query={query} />
             </section>
 
-            <p className="mb-10 text-4xl lg:ml-14">
+            <p className="mb-10 text-4xl ml-7 lg:ml-14">
                 {query ? `Search results for "${query}"` : "All Startups"}
             </p>
 
-            <section className='lg:m-14 place-content-center grid md:grid-cols-3 sm:grid-cols-2 gap-5'>
+            <section className='lg:m-14 m-7 place-content-center grid md:grid-cols-3 sm:grid-cols-2 gap-5'>
 
                 {Array.isArray(posts) && posts.length > 0 ? (
                     posts.map((post) => (

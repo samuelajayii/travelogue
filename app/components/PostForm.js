@@ -93,10 +93,10 @@ const PostForm = () => {
             action={formAction}
             className="items-center flex flex-col justify-center my-14"
         >
-            <div className="flex flex-col gap-10">
+            <div className="flex text-center flex-col gap-10">
                 <div>
                     <TextField
-                        sx={{ width: 600 }}
+                        sx={{ width: { xs: '90%', sm: 600 } }}
                         id="title"
                         name="title"
                         required
@@ -108,7 +108,7 @@ const PostForm = () => {
 
                 <div>
                     <TextField
-                        sx={{ width: 600 }}
+                        sx={{ width: { xs: '90%', sm: 600 } }}
                         id="destination"
                         name="destination"
                         required
@@ -119,13 +119,21 @@ const PostForm = () => {
                 </div>
 
                 <div>
-                    <Box sx={{ width: 600 }} margin="0 auto" display="flex" flexDirection="column" gap={2}>
+                    <Box
+                        sx={{
+                            width: { xs: '90%', sm: 600 },
+                            margin: '0 auto',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 2,
+                        }}
+                    >
                         <TextField
                             label="Select Date"
                             type="date"
                             value={date}
-                            name='date'
-                            id='date'
+                            name="date"
+                            id="date"
                             onChange={handleDateChange}
                             required
                             slotProps={{
@@ -140,15 +148,21 @@ const PostForm = () => {
                 </div>
 
                 <div>
-                    <Box display="flex" flexDirection="column" gap={2} maxWidth={600} margin="0 auto">
+                    <Box
+                        display="flex"
+                        flexDirection="column"
+                        gap={2}
+                        maxWidth={{ xs: '90%', sm: 600 }}
+                        margin="0 auto"
+                    >
                         <Button variant="contained" component="label">
                             Upload Image
                             <input
                                 type="file"
                                 accept="image/*"
                                 hidden
-                                id='images'
-                                name='images'
+                                id="images"
+                                name="images"
                                 onChange={handleImageChange}
                             />
                         </Button>
@@ -167,7 +181,7 @@ const PostForm = () => {
                                 <img
                                     src={preview}
                                     alt="Preview"
-                                    id='images'
+                                    id="images"
                                     style={{ width: '100%', borderRadius: '8px' }}
                                 />
                             </Box>
@@ -182,8 +196,14 @@ const PostForm = () => {
                     </Box>
                     {errors.image && <p className="text-red-500">{errors.image}</p>}
                 </div>
-                <Box maxWidth={600}>
-                    <div data-color-mode="light" className='w-[50vw]'>
+
+                <div className='' data-color-mode="light">
+                    <Box
+                        sx={{
+                            width: { xs: '90%', sm: 600 },
+                            margin: '0 auto',
+                        }}
+                    >
                         <InputLabel
                             color="info"
                             margin="dense"
@@ -202,13 +222,15 @@ const PostForm = () => {
                             }}
                         />
                         {errors.content && <p className="text-red-500">{errors.content}</p>}
-                    </div>
-                </Box>
-
+                    </Box>
+                </div>
             </div>
             <Button
                 type="submit"
-                sx={{ mt: 2 }}
+                sx={{
+                    mt: 2,
+                    width: { xs: '90%', sm: 'auto' },
+                }}
                 disabled={isPending}
                 variant="contained"
                 color="info"
