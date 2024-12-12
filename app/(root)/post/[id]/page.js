@@ -10,6 +10,7 @@ import { faCalendar, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import { writeClient } from '@/sanity/lib/write-client';
 
 export const experimental_prr = true
 
@@ -17,6 +18,13 @@ const page = async ({ params }) => {
 
     const id = (await params).id
     const post = await client.fetch(POST_BY_ID_QUERY, { id })
+
+    const handleDelete = async () => {
+        "use server"
+        await writeClient.delete(id);
+        redirect('/home')
+    }
+
     const session = await auth()
     const user = session?.user
 
@@ -53,6 +61,16 @@ const page = async ({ params }) => {
                 <h1 className='text-black lg:w-[50vw] my-10 text-justify'>
                     {post.content}
                 </h1>
+
+                <div className='flex items-center justify-center gap-40 w-full mb-10 '>
+                    {user?.id === post.blogger._id && ( // Ensure only the post owner can delete
+                        <form action={handleDelete}>
+                            <button type='submit' className='py-2 px-4 bg-red-600 text-white rounded-md'>Delete Post</button>
+                        </form>
+                    )}
+
+                    <button className='py-2 px-4 bg-black text-white rounded-md'>Edit</button>
+                </div>
             </div>
         </div>
     );
