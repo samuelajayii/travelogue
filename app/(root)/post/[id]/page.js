@@ -62,15 +62,21 @@ const page = async ({ params }) => {
                     {post.content}
                 </h1>
 
-                <div className='flex items-center justify-center gap-40 w-full mb-10 '>
-                    {user?.id === post.blogger._id && ( // Ensure only the post owner can delete
+
+                {user?.id === post.blogger._id && ( // Ensure only the post owner can delete
+                    <div className='flex items-center justify-center gap-40 w-full mb-10 '>
                         <form action={handleDelete}>
                             <button type='submit' className='py-2 px-4 bg-red-600 text-white rounded-md'>Delete Post</button>
                         </form>
-                    )}
 
-                    <button className='py-2 px-4 bg-black text-white rounded-md'>Edit</button>
-                </div>
+                        <Link href={`/post/edit/${id}`}>
+                            <button className='py-2 px-4 bg-black text-white rounded-md'>Edit</button>
+                        </Link>
+
+                    </div>
+
+                )}
+
             </div>
         </div>
     );

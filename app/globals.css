@@ -59,6 +59,16 @@
   background-size: cover;
 }
 
+.edit-bg{
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.4), /* Black gradient with opacity */
+    rgba(0, 0, 0, 0.4)
+  ), url("/edit.jpg");
+  background-position: center; 
+  background-repeat: no-repeat; 
+  background-size: cover;
+}
+
 #section-bg{
   background: linear-gradient(
     rgba(0, 0, 0, 0.6), /* Black gradient with opacity */
