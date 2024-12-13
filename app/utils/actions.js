@@ -13,7 +13,6 @@ export const createPost = async (state, post, content) => {
     );
 
     const uploadedImage = await writeClient.assets.upload('image', images);
-    console.log('Uploaded image response:', uploadedImage);
 
 
     if (!title || typeof title !== "string") {

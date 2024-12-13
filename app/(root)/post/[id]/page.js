@@ -68,11 +68,6 @@ const page = async ({ params }) => {
                         <form action={handleDelete}>
                             <button type='submit' className='py-2 px-4 bg-red-600 text-white rounded-md'>Delete Post</button>
                         </form>
-
-                        <Link href={`/post/edit/${id}`}>
-                            <button className='py-2 px-4 bg-black text-white rounded-md'>Edit</button>
-                        </Link>
-
                     </div>
 
                 )}
