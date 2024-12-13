@@ -46,7 +46,7 @@ const PostForm = () => {
             setContent('');
             setDate('');
 
-            router.push('/')
+            router.push('/home')
 
             return { ...prevState, status: 'SUCCESS' };
         } catch (error) {

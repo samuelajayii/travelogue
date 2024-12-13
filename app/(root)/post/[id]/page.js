@@ -20,12 +20,16 @@ const page = async ({ params }) => {
     const post = await client.fetch(POST_BY_ID_QUERY, { id })
 
     const handleDelete = async () => {
+        "use server"
+
         try {
-            const result = await client.delete(postId);
-            console.log("Post deleted successfully:", result);
+            await writeClient.delete(id);
+
         } catch (error) {
             console.error("Failed to delete post:", error);
         }
+
+        redirect('/home')
     }
 
     const session = await auth()
