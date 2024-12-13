@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import { formatDate } from '@/app/utils/utils';
-import { client } from '@/sanity/lib/client';
 import { POST_BY_ID_QUERY } from '@/sanity/lib/queries';
 import { urlFor } from '@/sanity/lib/image';
 import React from 'react';
@@ -11,6 +10,7 @@ import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { writeClient } from '@/sanity/lib/write-client';
+import { client } from '@/sanity/lib/client';
 
 export const experimental_prr = true
 
@@ -21,7 +21,7 @@ const page = async ({ params }) => {
 
     const handleDelete = async () => {
         "use server"
-        await writeClient.delete(id);
+        await client.delete(id);
         redirect('/home')
     }
 
