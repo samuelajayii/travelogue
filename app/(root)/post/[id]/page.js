@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { formatDate } from '@/app/utils/utils';
+import { client } from '@/sanity/lib/client';
 import { POST_BY_ID_QUERY } from '@/sanity/lib/queries';
 import { urlFor } from '@/sanity/lib/image';
 import React from 'react';
@@ -10,7 +11,6 @@ import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { writeClient } from '@/sanity/lib/write-client';
-import { client } from '@/sanity/lib/client';
 
 export const experimental_prr = true
 
@@ -20,9 +20,12 @@ const page = async ({ params }) => {
     const post = await client.fetch(POST_BY_ID_QUERY, { id })
 
     const handleDelete = async () => {
-        "use server"
-        await client.delete(id);
-        redirect('/home')
+        try {
+            const result = await client.delete(postId);
+            console.log("Post deleted successfully:", result);
+        } catch (error) {
+            console.error("Failed to delete post:", error);
+        }
     }
 
     const session = await auth()
