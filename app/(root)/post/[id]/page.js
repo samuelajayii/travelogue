@@ -48,7 +48,7 @@ const page = async ({ params }) => {
 
             <div className='flex items-center mx-7 flex-col justify-between lg:justify-center '>
                 <div className='lg:w-[50vw] lg:self-center self-start lg:flex-row flex-col lg:gap-0 gap-3 flex items-center justify-between'>
-                    <Link href={`/user/${user?.id}`}>
+                    <Link href={`/user/${post.blogger._id}`}>
                         <div className='flex items-center justify-center gap-4'>
                             <Image height={64} width={64} className='rounded-full' alt='profile-photo' src={post.blogger.image} />
                             <div className='font-semibold'>{post.blogger.name}</div>
