@@ -29,7 +29,7 @@ const page = async ({ params }) => {
 
             <div>
                 <p className="font-semibold lg:m-14 m-7 text-3xl">
-                    {session.user?.id === id ? "Your" : "All"} Startups
+                    {session.user?.id === id ? "Your" : "All"} Posts
                 </p>
             </div>
 
@@ -39,7 +39,7 @@ const page = async ({ params }) => {
                         <PostCard key={post._id} post={post} />
                     ))
                 ) : (
-                    <p className="no-results">No startups found</p>
+                    <p className="no-results">No posts found</p>
                 )}
             </section>
         </div>
