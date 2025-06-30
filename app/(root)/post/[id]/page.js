@@ -16,11 +16,22 @@ export const experimental_prr = true
 
 const page = async ({ params }) => {
 
+    const session = await auth()
+    const user = session?.user
+    if (!session) redirect('/')
+
+
     const id = (await params).id
     const post = await client.fetch(POST_BY_ID_QUERY, { id })
 
     const handleDelete = async () => {
         "use server"
+
+        const session = await auth();
+
+        if (!session) {
+            throw new Error("Unauthorized - Session not found");
+        }
 
         try {
             await writeClient.delete(id);
@@ -31,11 +42,6 @@ const page = async ({ params }) => {
 
         redirect('/home')
     }
-
-    const session = await auth()
-    const user = session?.user
-
-    if (!session) redirect('/')
 
     return (
         <div className='mt-20 flex flex-col gap-3 lg:gap-10'>

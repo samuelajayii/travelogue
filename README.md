@@ -1,58 +1,80 @@
-# Travelogue  
+# Travelogue 🌍✈️
 
-Travelogue is a platform for travel enthusiasts to share their adventures, stories, and recommendations. Users can create profiles, post about their travels, and explore the experiences of others.  
+Travelogue is a platform for travel enthusiasts to share their adventures, stories, and recommendations. Users can create profiles, post about their trips, and explore the experiences of others around the world.
 
-## Features  
+---
 
-### Core Features  
-- **User Authentication:**  
-  Secure sign-in/sign-up functionality. Only logged-in users can view posts and profiles. Used Auth.js.  
+## ✨ Features
 
-- **User Profiles:**  
-  - Displays user information.  
-  - List of destinations visited.  
+### 🔐 User Authentication
+- Secure sign-in/sign-up using **Auth.js (NextAuth)**.
+- Only authenticated users can view posts, profiles, or use the platform.
 
-- **Create & Manage Posts:**  
-  - Users can write detailed posts about their trips.  
-  - Add locations, photos, and recommendations.  
-  - Edit and delete posts as needed.  
+### 👤 User Profiles
+- Each user has a unique profile displaying:
+  - Profile information
+  - List of destinations they've visited
+  - All their shared posts
 
-- **Dynamic Routing:**  
-  - `/profile/[username]` – View user profiles and their travel experiences.  
-  - `/posts/[postId]` – View individual posts with complete details.  
+### 📝 Create & Manage Posts
+- Users can:
+  - Create rich posts about their travel experiences
+  - Add destinations, photos, trip dates, and markdown-based content
+  - Edit or delete posts
 
-### Additional Features  
+### 🔍 Search & Explore
+- Authenticated users can search posts by destination or tag
 
+### 📲 Responsive Design
+- Fully optimized for mobile, tablet, and desktop devices
 
-- **Explore & Search:**  
-  - Search posts by destination or tags (available after login).  
+### 🌐 Dynamic Routing
+- `/profile/[username]` – View individual user profiles
+- `/posts/[postId]` – Read full details of a single post
 
-- **Responsive Design:**  
-  - Fully optimized for mobile, tablet, and desktop.  
+---
 
-## Tech Stack  
+## 🛠 Tech Stack
 
-- **Frontend:**  
-  - [Next.js](https://nextjs.org/)  
-  - [Tailwind CSS](https://tailwindcss.com/) for styling  
-  - Google Fonts for typography  
+### Frontend
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/) for modern responsive styling
+- [Google Fonts](https://fonts.google.com/) for beautiful typography
 
-- **Backend:**  
-  - Next.js API routes  
-  - [Sanity CMS](https://www.sanity.io/) for content management  
+### Backend & Data
+- **Next.js API Routes** for server-side logic
+- [Sanity.io](https://www.sanity.io/) as a headless CMS to store posts, images, and profile data
 
-- **Database:**  
-  - [Sanity](https://www.sanity.io/) for storing posts and user profiles  
+### Auth
+- [NextAuth.js (Auth.js)](https://next-auth.js.org/) with JWT sessions and Google OAuth provider
 
-- **Authentication:**  
-  - [NextAuth.js](https://next-auth.js.org/)  
+---
 
-- **Deployment:**  
-  - Hosted on [Vercel](https://vercel.com/)  
+## 🚀 Deployment
 
-## Installation  
+### 🐳 Dockerized
+This app is containerized using **Docker** with a multi-stage build process for optimized image size and production performance.
 
-1. Clone the repository:  
+### ☁️ Hosted on Google Cloud Run
+The final container is deployed using **Google Cloud Run**, enabling serverless scalability with secure HTTPS out of the box.
+
+**🔗 Live URL:**  
+👉 [https://travelogue-468901630951.europe-west1.run.app/home](https://travelogue-468901630951.europe-west1.run.app/home)
+
+---
+
+## 🧰 Local Development
+
+### Prerequisites
+- Node.js (v18+)
+- Docker (optional for container testing)
+- A free [Sanity.io](https://www.sanity.io/) account
+- Google OAuth credentials (for login)
+
+### Installation
+
+1. **Clone the repo**
    ```bash
    git clone https://github.com/your-username/travelogue.git
    cd travelogue
+  npm install

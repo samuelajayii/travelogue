@@ -32,6 +32,8 @@ export const createPost = async (state, post, content) => {
     console.log(imageReference)
     const slug = slugify(title, { lower: true, strict: true });
     try {
+        const session = await auth();
+        
         const post = {
             title,
             destination,

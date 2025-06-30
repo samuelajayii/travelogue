@@ -6,7 +6,7 @@ import { writeClient } from "./sanity/lib/write-client";
 
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  providers: [ Google({
+  providers: [Google({
     clientId: process.env.AUTH_GOOGLE_ID,
     clientSecret: process.env.AUTH_GOOGLE_SECRET,
     authorization: {
@@ -20,36 +20,36 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       try {
         const { email, name, image } = user; // Extract the image URL from the session user object
         const id = profile?.sub; // Use the Google profile ID as a unique identifier
-    
+
         if (!id) {
           console.error("Google profile ID (sub) is undefined.");
           return false; // Deny sign-in if the profile ID is missing
         }
-    
+
         // Check if a blogger already exists with the given Google ID
         const existingUser = await client
           .withConfig({ useCdn: false })
           .fetch(AUTHOR_BY_GOOGLE_ID_QUERY, { id });
-    
+
         if (!existingUser) {
-          
+
           await writeClient.create({
             _type: "blogger",
             id,
             name,
             email,
             image,
-            bio: profile.bio || "", 
+            bio: profile.bio || "",
           });
         }
-    
+
         return true; // Allow sign-in to proceed
       } catch (error) {
         console.error("Error during sign-in:", error);
         return false; // Deny sign-in on failure
       }
     },
-    
+
 
     async jwt({ token, account, profile }) {
       try {
@@ -91,4 +91,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
     },
   },
+  secret: process.env.AUTH_SECRET,
+  
 })
