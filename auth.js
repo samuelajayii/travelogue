@@ -11,8 +11,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     clientSecret: process.env.AUTH_GOOGLE_SECRET,
     authorization: {
       params: {
-        scope: "openid email profile",
-      },
+        scope: "openid email profile",},
     },
   }),],
   callbacks: {
@@ -92,5 +91,5 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
   secret: process.env.AUTH_SECRET,
-  
+
 })
