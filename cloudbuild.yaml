@@ -19,7 +19,7 @@ steps:
     args:
       - build
       - -t
-      - docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}
+      - docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:latest
       - .
 
   - name: "gcr.io/cloud-builders/docker"
