@@ -1,56 +1,7 @@
----
-images:
-  - docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}
-secrets:
-  - secretEnv:
-      _DOCKERHUB_PAT: projects/${PROJECT_ID}/secrets/DOCKERHUB_PAT/versions/latest
-      _SANITY_API_TOKEN_SECRET_NAME: projects/${PROJECT_ID}/secrets/SANITY_API_TOKEN/versions/latest
 steps:
-  - args: ['install']
-    id: Install Dependencies
-    name: gcr.io/cloud-builders/npm
-  - args: ['run', 'build']
-    id: Build Next.js App
-    name: gcr.io/cloud-builders/npm
-  - args: [
-      'login',
-      '--username=${_DOCKERHUB_USERNAME}',
-      '--password=${_DOCKERHUB_PAT}'
-    ]
-    id: Docker Login
-    name: gcr.io/cloud-builders/docker
-    secretEnv: ['_DOCKERHUB_PAT']
-  - args: [
-      'build',
-      '-t',
-      'docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}',
-      '.'
-    ]
-    id: Build Docker Image
-    name: gcr.io/cloud-builders/docker
-  - args: [
-      'push',
-      'docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}'
-    ]
-    id: Push Docker Image
-    name: gcr.io/cloud-builders/docker
-  - args: [
-      'run', 'deploy', '${_CLOUD_RUN_SERVICE_NAME}',
-      '--image=docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}',
-      '--region=${_REGION}',
-      '--platform=managed',
-      '--allow-unauthenticated',
-      '--port=8080',
-      '--set-env-vars=NEXT_PUBLIC_SANITY_PROJECT_ID=${_SANITY_PROJECT_ID},NEXT_PUBLIC_SANITY_DATASET=${_SANITY_DATASET}',
-      '--update-secrets=SANITY_API_TOKEN=${_SANITY_API_TOKEN_SECRET_NAME}'
-    ]
-    id: Deploy to Cloud Run
-    name: gcr.io/cloud-builders/gcloud
-substitutions:
-  _CLOUD_RUN_SERVICE_NAME: travelogue
-  _DOCKERHUB_REPO_NAME: travelogue
-  _DOCKERHUB_USERNAME: samuelajayii
-  _REGION: europe-west1
-  _SANITY_API_TOKEN_SECRET_NAME: SANITY_API_TOKEN
-  _SANITY_DATASET: production
-  _SANITY_PROJECT_ID: inojoc9p
+  - name: gcr.io/cloud-builders/npm
+    args: ['install']
+  - name: gcr.io/cloud-builders/npm
+    args: ['run', 'build']
+  - name: gcr.io/cloud-builders/gcloud
+    args: ['version']
