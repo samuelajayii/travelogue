@@ -1,7 +1,143 @@
+# cloudbuild.yaml
+# This file defines the CI/CD pipeline for your Dockerized Next.js app on Cloud Run,
+# using Docker Hub as the container registry.
+
 steps:
-  - name: gcr.io/cloud-builders/npm
+  # Step 1: Install Node.js dependencies
+  - name: 'gcr.io/cloud-builders/npm'
     args: ['install']
-  - name: gcr.io/cloud-builders/npm
+    id: 'Install Dependencies'
+
+  # Step 2: Build the Next.js application for production
+  - name: 'gcr.io/cloud-builders/npm'
     args: ['run', 'build']
-  - name: gcr.io/cloud-builders/gcloud
-    args: ['version']
+    id: 'Build Next.js App'
+
+  # Step 3: Docker Login to Docker Hub
+  # Uses the Docker Hub username and Personal Access Token (PAT) from Secret Manager.
+  # The PAT is exposed as a secret environment variable during this step.
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'login',
+      '--username=${_DOCKERHUB_USERNAME}',
+      '--password=${_DOCKERHUB_PAT}' # This will be securely loaded from Secret Manager
+    ]
+    id: 'Docker Login'
+    secretEnv: ['_DOCKERHUB_PAT'] # Declare that _DOCKERHUB_PAT is a secret environment variable for this step.
+
+  # Step 4: Build the Docker image
+  # Tags the image with your Docker Hub username/repo and the commit SHA.
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t',
+      'docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}',
+      '.' # The build context is the current directory (root of your repo)
+    ]
+    id: 'Build Docker Image'
+
+  # Step 5: Push the Docker image to Docker Hub
+  - name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push',
+      'docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}'
+    ]
+    id: 'Push Docker Image to Docker Hub'
+
+  # Step 6: Deploy the new Docker image to Cloud Run
+  # Note the --image flag now points to Docker Hub.
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args: [
+      'run',
+      'deploy',
+      '${_CLOUD_RUN_SERVICE_NAME}', # The name of your Cloud Run service
+      '--image=docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}',
+      '--region=${_REGION}',
+      '--platform=managed',
+      '--allow-unauthenticated', # Adjust this flag based on your service's authentication needs
+      '--port=8080', # This must match the EXPOSE and ENV PORT in your Dockerfile
+      # Set environment variables for your Next.js app (Sanity CMS configuration)
+      '--set-env-vars=NEXT_PUBLIC_SANITY_PROJECT_ID=${_SANITY_PROJECT_ID},NEXT_PUBLIC_SANITY_DATASET=${_SANITY_DATASET}',
+      # Securely load Sanity API Token from Secret Manager if applicable
+      '--update-secrets=SANITY_API_TOKEN=${_SANITY_API_TOKEN_SECRET_NAME}'
+    ]
+    id: 'Deploy to Cloud Run'
+
+images:
+  - docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}
+
+secrets:
+  # Corrected structure: 'secretEnv' is a map, not a list.
+  # Keys are the environment variable names exposed in build steps.
+  # Values are the full Secret Manager resource paths.
+  secretEnv:
+    _DOCKERHUB_PAT: projects/${PROJECT_ID}/secrets/DOCKERHUB_PAT/versions/latest
+    SANITY_API_TOKEN: projects/${PROJECT_ID}/secrets/${_SANITY_API_TOKEN_SECRET_NAME}/versions/latest
+
+substitutions:
+  _REGION: europe-west1 # Based on your provided value
+  _CLOUD_RUN_SERVICE_NAME: travelogue # Based on your provided value
+  _DOCKERHUB_USERNAME: samuelajayii # Based on your provided value
+  _DOCKERHUB_REPO_NAME: travelogue # Based on your provided value
+  _SANITY_PROJECT_ID: inojoc9p # Based on your provided value
+  _SANITY_DATASET: production # Based on your provided value
+  steps:
+    - name: 'gcr.io/cloud-builders/npm'
+      args: ['install']
+      id: 'Install Dependencies'
+    - name: 'gcr.io/cloud-builders/npm'
+      args: ['run', 'build']
+      id: 'Build Next.js App'
+    - name: 'gcr.io/cloud-builders/docker'
+      args: [
+        'login',
+        '--username=${_DOCKERHUB_USERNAME}',
+        '--password=${_DOCKERHUB_PAT}'
+      ]
+      id: 'Docker Login'
+      secretEnv: ['_DOCKERHUB_PAT']
+    - name: 'gcr.io/cloud-builders/docker'
+      args: [
+        'build',
+        '-t',
+        'docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}',
+        '.'
+      ]
+      id: 'Build Docker Image'
+    - name: 'gcr.io/cloud-builders/docker'
+      args: [
+        'push',
+        'docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}'
+      ]
+      id: 'Push Docker Image to Docker Hub'
+    - name: 'gcr.io/cloud-builders/gcloud'
+      args: [
+        'run',
+        'deploy',
+        '${_CLOUD_RUN_SERVICE_NAME}',
+        '--image=docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}',
+        '--region=${_REGION}',
+        '--platform=managed',
+        '--allow-unauthenticated',
+        '--port=8080',
+        '--set-env-vars=NEXT_PUBLIC_SANITY_PROJECT_ID=${_SANITY_PROJECT_ID},NEXT_PUBLIC_SANITY_DATASET=${_SANITY_DATASET}',
+        '--update-secrets=SANITY_API_TOKEN=${_SANITY_API_TOKEN_SECRET_NAME}'
+      ]
+      id: 'Deploy to Cloud Run'
+
+  images:
+    - docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}
+
+  secrets:
+    secretEnv:
+      _DOCKERHUB_PAT: projects/${PROJECT_ID}/secrets/DOCKERHUB_PAT/versions/latest
+      SANITY_API_TOKEN: projects/${PROJECT_ID}/secrets/${_SANITY_API_TOKEN_SECRET_NAME}/versions/latest
+
+  substitutions:
+    _REGION: europe-west1
+    _CLOUD_RUN_SERVICE_NAME: travelogue
+    _DOCKERHUB_USERNAME: samuelajayii
+    _DOCKERHUB_REPO_NAME: travelogue
+    _SANITY_PROJECT_ID: inojoc9p
+    _SANITY_DATASET: production
+    _SANITY_API_TOKEN_SECRET_NAME: SANITY_API_TOKEN
