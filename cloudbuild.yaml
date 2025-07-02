@@ -1,46 +1,55 @@
 ---
 steps:
-  - name: "gcr.io/cloud-builders/npm"
-    args: ["install"]
+  - name: 'gcr.io/cloud-builders/npm'
+    args:
+      - install
 
-  - name: "gcr.io/cloud-builders/npm"
-    args: ["run", "build"]
+  - name: 'gcr.io/cloud-builders/npm'
+    args:
+      - run
+      - build
 
-  - name: "gcr.io/cloud-builders/docker"
+  - name: 'gcr.io/cloud-builders/docker'
     id: Docker Login
     args:
       - login
       - --username=${_DOCKERHUB_USERNAME}
       - --password=${_DOCKERHUB_PAT}
-    secretEnv: ["_DOCKERHUB_PAT"]
+    secretEnv:
+      - '_DOCKERHUB_PAT'
 
-  - name: "gcr.io/cloud-builders/docker"
+  - name: 'gcr.io/cloud-builders/docker'
     id: Build Docker Image
     args:
       - build
       - -t
-      - docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:latest
+      - docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}
       - .
 
-  - name: "gcr.io/cloud-builders/docker"
+  - name: 'gcr.io/cloud-builders/docker'
     id: Push Docker Image to Docker Hub
     args:
       - push
       - docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}
 
-  - name: "gcr.io/cloud-builders/gcloud"
+  - name: 'gcr.io/cloud-builders/gcloud'
     id: Deploy to Cloud Run
     args:
       - run
       - deploy
       - ${_CLOUD_RUN_SERVICE_NAME}
-      - --image=docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}
+      - >-
+        --image=docker.io/${_DOCKERHUB_USERNAME}/
+        ${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}
       - --region=${_REGION}
       - --platform=managed
       - --allow-unauthenticated
       - --port=8080
-      - --set-env-vars=NEXT_PUBLIC_SANITY_PROJECT_ID=${_SANITY_PROJECT_ID},NEXT_PUBLIC_SANITY_DATASET=${_SANITY_DATASET}
-      - --update-secrets=SANITY_API_TOKEN=${_SANITY_API_TOKEN_SECRET_NAME}
+      - >-
+        --set-env-vars=NEXT_PUBLIC_SANITY_PROJECT_ID=${_SANITY_PROJECT_ID},
+        NEXT_PUBLIC_SANITY_DATASET=${_SANITY_DATASET}
+      - >-
+        --update-secrets=SANITY_API_TOKEN=${_SANITY_API_TOKEN_SECRET_NAME}
 
 images:
   - docker.io/${_DOCKERHUB_USERNAME}/${_DOCKERHUB_REPO_NAME}:${COMMIT_SHA}
